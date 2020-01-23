@@ -1,0 +1,11 @@
+# PyCharm IDE project configuration files
+.idea/
+
+# Ipython/Jupyter Notebooks checkpoint directory
+.ipynb_checkpoints/
+
+# OS X system file
+.DS_Store
+
+# Windows
+Thumbs.db
