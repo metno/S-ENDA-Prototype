@@ -41,3 +41,12 @@ services:
       - /bin/sh
       - /usr/local/bin/pycsw_setup.sh
 
+  dynamic-geoassets-api:
+    build:
+      context: ./dynamic-geoassets-api/
+      dockerfile: Dockerfile
+    container_name: senda-dynamic-geoassets-api
+    image: metno/senda-dynamic-geoassets-api
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

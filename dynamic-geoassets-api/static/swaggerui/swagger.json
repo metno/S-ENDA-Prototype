@@ -1,0 +1,356 @@
+{
+  "components": {
+    "schemas": {
+      "aboutOK": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provider": {
+            "properties": {
+              "@type": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "termsOfService": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "healthz": {
+        "properties": {
+          "description": {
+            "example": "Service is good to go.",
+            "type": "string"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "status": {
+            "enum": [
+              "healthy",
+              "unhealthy",
+              "critical"
+            ],
+            "example": "healthy",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "Service health report.",
+        "type": "object"
+      },
+      "metadataListOK": {
+        "items": {
+          "$ref": "#/components/schemas/metadataMMD"
+        },
+        "title": "Metadata listing.",
+        "type": "array"
+      },
+      "metadataMMD": {
+        "properties": {
+          "bounding_box": {
+            "example": [
+              120,
+              79,
+              -10,
+              90
+            ],
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 4,
+            "minItems": 4,
+            "type": "array"
+          },
+          "keywords": {
+            "example": [
+              "Wind",
+              "Pressure"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "product_name": {
+            "example": "Arome Arctic Full Control",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "metadataOK": {
+        "$ref": "#/components/schemas/metadataMMD",
+        "title": "Metadata record."
+      },
+      "serviceFailing": {
+        "properties": {
+          "error": {
+            "example": "Critial service error. Please try again later.",
+            "type": "string"
+          }
+        },
+        "title": "Error message.",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Register, edit and validate metadata about geodynamic datasets and services.",
+    "title": "Geodynamic assets API",
+    "version": "0.1"
+  },
+  "openapi": "3.0.2",
+  "paths": {
+    "/api/v1/about": {
+      "get": {
+        "operationId": "about",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/aboutOK"
+                }
+              }
+            },
+            "description": "Metadata about this service."
+          }
+        },
+        "summary": "Metadata about this service.",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/api/v1/dataset": {
+      "get": {
+        "operationId": "datasetGetAll",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/metadataOK"
+                }
+              }
+            },
+            "description": "Metadata listing went ok."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/serviceFailing"
+                }
+              }
+            },
+            "description": "The service can not properly handle the request at this time."
+          }
+        },
+        "summary": "List metadata records for all existing datasets.",
+        "tags": [
+          "dataset"
+        ]
+      },
+      "post": {
+        "operationId": "datasetPost",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/metadataMMD"
+              }
+            }
+          },
+          "description": "Dataset to be stored.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/metadataOK"
+                }
+              }
+            },
+            "description": "Metadata listing went ok."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/serviceFailing"
+                }
+              }
+            },
+            "description": "The service can not properly handle the request at this time."
+          }
+        },
+        "summary": "Add new metadatata dataset record.",
+        "tags": [
+          "dataset"
+        ]
+      }
+    },
+    "/api/v1/dataset/{id}": {
+      "get": {
+        "operationId": "datasetGet",
+        "parameters": [
+          {
+            "description": "Globally unique id defining this dataset.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/metadataOK"
+                }
+              }
+            },
+            "description": "Metadata listing went ok."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/serviceFailing"
+                }
+              }
+            },
+            "description": "The service can not properly handle the request at this time."
+          }
+        },
+        "summary": "Get metadata about specified dataset.",
+        "tags": [
+          "dataset"
+        ]
+      },
+      "put": {
+        "operationId": "datasetReplace",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/metadataOK"
+                }
+              }
+            },
+            "description": "Metadata listing went ok."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/serviceFailing"
+                }
+              }
+            },
+            "description": "The service can not properly handle the request at this time."
+          }
+        },
+        "summary": "Update metadata record by replacing it with a new version.",
+        "tags": [
+          "dataset"
+        ]
+      }
+    },
+    "/api/v1/healthz": {
+      "get": {
+        "operationId": "healthz",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/healthz"
+                }
+              }
+            },
+            "description": "The service is ok."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/serviceFailing"
+                }
+              }
+            },
+            "description": "The whole service is failing, and healthz is not able to give you a meaningful status."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/healthz"
+                }
+              }
+            },
+            "description": "The service is up, but something is seriously wrong and healthz will give you the status."
+          }
+        },
+        "summary": "Health status of this service.",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/api/v1/service": {
+      "get": {
+        "operationId": "serviceGetAll",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/metadataOK"
+                }
+              }
+            },
+            "description": "Metadata listing went ok."
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/serviceFailing"
+                }
+              }
+            },
+            "description": "The service can not properly handle the request at this time."
+          }
+        },
+        "summary": "List metadata records for all existing services.",
+        "tags": [
+          "service"
+        ]
+      }
+    }
+  }
+}
