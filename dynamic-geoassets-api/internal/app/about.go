@@ -3,7 +3,7 @@ package app
 import (
 	"net/url"
 
-	"github.com/metno/S-ENDA-documentation/dynamic-geoassets-api/pkg/metaservice"
+	"github.com/metno/S-ENDA-Prototype/dynamic-geoassets-api/pkg/metaservice"
 )
 
 func about() *metaservice.About {

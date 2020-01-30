@@ -21,14 +21,18 @@ func (s *service) datasetHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	dataset, err := s.metadataStore.getDataset(params["id"])
 	if err != nil {
+		if err == ErrorDoesNotExist {
+			errorResponse("The requested resource does not exist.", w, r, http.StatusNotFound)
+			return
+		}
 		log.Printf("failed to get dataset: %s", err)
-		serverErrorResponse(err, w, r)
+		errorResponse("Failed to get dataset.", w, r, http.StatusServiceUnavailable)
 		return
 	}
 
 	payload, err := json.Marshal(dataset)
 	if err != nil {
-		http.Error(w, "Failed to serialize data.", http.StatusInternalServerError)
+		errorResponse("Failed to serialize data.", w, r, http.StatusInternalServerError)
 		return
 	}
 	okResponse(payload, w, r)
@@ -42,22 +46,22 @@ func (s *service) putDatasetHandler(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(payload)
 	if err := decoder.Decode(dataset); err != nil {
-		http.Error(w, "Malformed json content", http.StatusBadRequest)
+		errorResponse("Malformed json content", w, r, http.StatusBadRequest)
 		return
 	}
 
 	if !validDataset(dataset) {
-		http.Error(w, "Nonvalid metadata", http.StatusBadRequest)
+		errorResponse("Nonvalid metadata", w,r, http.StatusBadRequest)
 	}
 
 	storedDataset, err := s.metadataStore.putDataset(dataset)
 	if err != nil {
-		http.Error(w, "Service Unavailable", http.StatusServiceUnavailable)
+		errorResponse("Failed to store dataset. Try again soon.", w, r, http.StatusServiceUnavailable)
 	}
 
 	response, err := json.Marshal(storedDataset)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		errorResponse("Failed to serialize dataset", w, r, http.StatusInternalServerError)
 	}
 	okResponse(response, w, r)
 }
@@ -65,14 +69,18 @@ func (s *service) putDatasetHandler(w http.ResponseWriter, r *http.Request) {
 func (s *service) datasetCollectionHandler(w http.ResponseWriter, r *http.Request) {
 	listing, err := s.metadataStore.getAllDatasets()
 	if err != nil {
-		serverErrorResponse(err, w, r)
+		errorResponse("Failed to access datasets.", w, r, http.StatusServiceUnavailable)
 		return
 	}
 
 	payload, err := json.Marshal(listing)
 	if err != nil {
-		http.Error(w, "Failed to serialize data.", http.StatusInternalServerError)
+		errorResponse("Failed to serialize response.", w, r, http.StatusInternalServerError)
 		return
 	}
 	okResponse(payload, w, r)
+}
+
+func validDataset(dataset *MetadataMMD) bool {
+	return true
 }

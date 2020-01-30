@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/google/uuid"
@@ -45,7 +44,7 @@ func (ss StaticMetadataStore) putDataset(dataset *MetadataMMD) (*MetadataMMD, er
 
 	ss.mux.Lock()
 	defer ss.mux.Unlock()
-	ss.datasets[dataset.ProductName] = dataset
+	ss.datasets[dataset.ID] = dataset
 
 	return dataset, nil
 }
@@ -66,7 +65,7 @@ func (ss StaticMetadataStore) getDataset(id string) (*MetadataMMD, error) {
 	defer ss.mux.Unlock()
 	dataset, ok := ss.datasets[id]
 	if !ok {
-		return nil, fmt.Errorf("No dataset for id %s exists", id)
+		return nil, ErrorDoesNotExist
 	}
 
 	return dataset, nil

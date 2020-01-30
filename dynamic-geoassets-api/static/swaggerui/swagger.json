@@ -112,7 +112,7 @@
   },
   "info": {
     "description": "Register, edit and validate metadata about geodynamic datasets and services.",
-    "title": "Geodynamic assets API",
+    "title": "Dynamic geo assets API",
     "version": "0.1"
   },
   "openapi": "3.0.2",
@@ -246,35 +246,6 @@
           }
         },
         "summary": "Get metadata about specified dataset.",
-        "tags": [
-          "dataset"
-        ]
-      },
-      "put": {
-        "operationId": "datasetReplace",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/metadataOK"
-                }
-              }
-            },
-            "description": "Metadata listing went ok."
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/serviceFailing"
-                }
-              }
-            },
-            "description": "The service can not properly handle the request at this time."
-          }
-        },
-        "summary": "Update metadata record by replacing it with a new version.",
         "tags": [
           "dataset"
         ]

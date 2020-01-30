@@ -1,6 +1,6 @@
 openapi: "3.0.2"
 info: 
-  title: "Geodynamic assets API"
+  title: "Dynamic geo assets API"
   description: "Register, edit and validate metadata about geodynamic datasets and services."
   version: "0.1"
 paths:
@@ -99,24 +99,6 @@ paths:
             type: string
           required: true
           description: Globally unique id defining this dataset.
-      responses:
-        '200':
-          description: Metadata listing went ok.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/metadataOK'
-        '503':
-          description: The service can not properly handle the request at this time.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/serviceFailing'
-    put:
-      summary: "Update metadata record by replacing it with a new version."
-      operationId: datasetReplace
-      tags:
-        - dataset
       responses:
         '200':
           description: Metadata listing went ok.

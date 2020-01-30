@@ -19,13 +19,13 @@ func (s *service) serviceCollectionHandler(w http.ResponseWriter, r *http.Reques
 	dataset, err := s.metadataStore.getAllServices()
 	if err != nil {
 		log.Printf("failed to get dataset: %s", err)
-		serverErrorResponse(err, w, r)
+		errorResponse("Failed to access data.", w, r, http.StatusServiceUnavailable)
 		return
 	}
 
 	payload, err := json.Marshal(dataset)
 	if err != nil {
-		http.Error(w, "Failed to serialize data.", http.StatusInternalServerError)
+		errorResponse("Failed to serialize response.", w, r, http.StatusInternalServerError)
 		return
 	}
 	okResponse(payload, w, r)

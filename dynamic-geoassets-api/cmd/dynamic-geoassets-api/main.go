@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/metno/S-ENDA-documentation/dynamic-geoassets-api/internal/app"
+	"github.com/metno/S-ENDA-Prototype/dynamic-geoassets-api/internal/app"
 )
 
 func main() {

@@ -3,6 +3,7 @@ package app
 
 import (
 	"encoding/json"
+	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -10,8 +11,8 @@ import (
 	gorilla "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
-	"github.com/metno/S-ENDA-documentation/dynamic-geoassets-api/pkg/metaservice"
-	"github.com/metno/S-ENDA-documentation/dynamic-geoassets-api/pkg/middleware"
+	"github.com/metno/S-ENDA-Prototype/dynamic-geoassets-api/pkg/metaservice"
+	"github.com/metno/S-ENDA-Prototype/dynamic-geoassets-api/pkg/middleware"
 )
 
 const staticFilesDir = "./static/"
@@ -25,7 +26,7 @@ type service struct {
 	metadataStore  MetadataStore
 }
 
-type ServerError struct {
+type HTTPError struct {
 	ErrMsg string `json:"error"`
 }
 
@@ -35,6 +36,8 @@ type MetadataStore interface {
 	getAllDatasets() (MetadataListing, error)
 	getAllServices() (ServiceListing, error)
 }
+
+var ErrorDoesNotExist = errors.New("Requested data not found in the metadata store.")
 
 // NewService returns a struct containing that have the routes and handlers for this application.
 func NewService(templates *template.Template, metadataStore MetadataStore) *service {
@@ -132,9 +135,9 @@ func okResponse(payload []byte, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func serverErrorResponse(errMsg error, w http.ResponseWriter, r *http.Request) {
-	errResponse := ServerError{
-		ErrMsg: errMsg.Error(),
+func errorResponse(errorMsg string, w http.ResponseWriter, r *http.Request, httpStatus int) {
+	errResponse := HTTPError{
+		ErrMsg: errorMsg,
 	}
 
 	payload, err := json.Marshal(errResponse)
@@ -142,7 +145,7 @@ func serverErrorResponse(errMsg error, w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to serialize data.", http.StatusInternalServerError)
 		return
 	}
-	w.WriteHeader(http.StatusServiceUnavailable)
+	w.WriteHeader(httpStatus)
 
 	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(payload)

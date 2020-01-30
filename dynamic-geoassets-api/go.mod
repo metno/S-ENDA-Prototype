@@ -1,4 +1,4 @@
-module github.com/metno/S-ENDA-documentation/dynamic-geoassets-api
+module github.com/metno/S-ENDA-Prototype/dynamic-geoassets-api
 
 go 1.13
 

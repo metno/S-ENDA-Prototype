@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
-	"github.com/metno/S-ENDA-documentation/dynamic-geoassets-api/pkg/metaservice"
+	"github.com/metno/S-ENDA-Prototype/dynamic-geoassets-api/pkg/metaservice"
 )
 
 func testService() *service {
@@ -30,6 +30,7 @@ func TestHTTPBasic(t *testing.T) {
 		{"/healthz", metaservice.HealthzHandler(service.checkHealthz), 200},
 		{"/", service.docsHandler, 200},
 		{"/api/v1/service", service.serviceCollectionHandler, 200},
+		{"/api/v1/dataset/f9c7ad18-433a-11ea-a24b-f326ec1f3405", service.datasetHandler, 404},
 	}
 
 	for _, httpTest := range basicHTTPTests {
@@ -44,6 +45,21 @@ func TestHTTPBasic(t *testing.T) {
 		}
 	}
 }
+
+func TestHTTPAbout(t *testing.T) {
+		service := testService()
+
+		req := httptest.NewRequest("GET", "http://localhost:8080/api/v1/about", nil)
+		w := httptest.NewRecorder()
+		handler := proxyHeaders(metaservice.AboutHandler(service.about))
+		handler.ServeHTTP(w, req)
+
+		response := w.Result()
+		if response.StatusCode != 200 {
+			t.Errorf("Expected successfull response for /api/v1/about/:\n got: %d\n wanted: 200", response.StatusCode)
+		}
+}
+
 func TestHTTPdatasetCollection(t *testing.T) {
 	service := testService()
 
@@ -64,7 +80,7 @@ func TestHTTPdatasetCollection(t *testing.T) {
 	}
 }
 
-var testDataset = `
+var correctDataset = `
 {
   "bounding_box": [
     120,
@@ -80,10 +96,27 @@ var testDataset = `
 }
 `
 
-func TestHTTPStoreDataset(t *testing.T) {
+var malformedDataset = `
+{
+  "bounding_box": [
+    120,
+    79,
+    -10,
+    90
+  ,
+  "keywords": [
+    "Wind",
+    "Pressure"
+  ],
+  "product_name": "Norway forecast 100m supergood"
+}
+`
+
+func TestHTTPStoreAndGetDataset(t *testing.T) {
 	service := testService()
 
-	reader := strings.NewReader(testDataset)
+	// Post dataset
+	reader := strings.NewReader(correctDataset)
 	req := httptest.NewRequest("POST", "http://localhost:8080/api/v1/dataset", reader)
 	w := httptest.NewRecorder()
 	service.putDatasetHandler(w, req)
@@ -94,6 +127,33 @@ func TestHTTPStoreDataset(t *testing.T) {
 	err := decoder.Decode(&dataset)
 	if err != nil {
 		t.Errorf(" got: unable to decode json response: %s\n wanted: succefully decoded http json response.", err)
+	}
+
+	// Get back the same dataset
+	req = httptest.NewRequest("GET", fmt.Sprintf("http://localhost:8080/api/v1/dataset/%s", dataset.ID), nil)
+	req = mux.SetURLVars(req, map[string]string{
+		"id": dataset.ID,
+	})
+	w = httptest.NewRecorder()
+	service.datasetHandler(w, req)
+
+	if w.Result().StatusCode != 200 {
+		t.Errorf("Expected to be able to get back posted dataset %s:\ngot: status code %d\n wanted: status code 200", dataset.ID, w.Result().StatusCode)
+	}
+
+}
+
+func TestHTTPSStoreMalformedDataset(t *testing.T) {
+	service := testService()
+
+	// Post dataset
+	reader := strings.NewReader(malformedDataset)
+	req := httptest.NewRequest("POST", "http://localhost:8080/api/v1/dataset", reader)
+	w := httptest.NewRecorder()
+	service.putDatasetHandler(w, req)
+
+	if (w.Result().StatusCode != 400 ) {
+		t.Errorf("Expected to get back error for malformed dataset:\n got: status code: %d\n wanted: 400", w.Result().StatusCode)
 	}
 }
 

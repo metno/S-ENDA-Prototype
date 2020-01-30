@@ -1,24 +1,17 @@
 # How to use the Dynamic geo assets API
-### Install Go
-Follow the instructions [here](https://golang.org/doc/install)
-
-### Install Docker
+### Install Docker and docker-compose
 
 Ubuntu/bionic:
 ```
 sudo apt-get install docker
 ```
+Go to https://docs.docker.com/compose/install/ to install  `docker-compose`
 
-### Build app
+### Build and run app
 ```
 git clone git@github.com:metno/S-ENDA-Prototype.git
-cd S-ENDA-Prototype/dynamic-geoassets-api
-docker build -t dynamic-geoassets-api .
+cd S-ENDA-Prototype/
+docker-compose up
 ```
 
-### Run app
-```
- docker run -i -p 8080:8080 dynamic-geoassets-api
- ```
-
- Now go to `http://localhost:8080`
+Now go to `http://localhost:8080`
