@@ -1,0 +1,120 @@
+<mmd:mmd xmlns:mmd="http://www.met.no/schema/mmd">
+  <mmd:metadata_identifier>S2A_MSIL1C_20200101T105441_N0202_R051_T32VMK_20200101T144247_DTERRENGDATA</mmd:metadata_identifier>
+  <mmd:platform>
+    <mmd:short_name>S2A</mmd:short_name>
+    <mmd:long_name>Sentinel-2A</mmd:long_name>
+  </mmd:platform>
+  <mmd:metadata_status>Active</mmd:metadata_status>
+  <mmd:collection>NBS</mmd:collection>
+  <mmd:title xml:lang="en">Date: 2020-01-01T10:54:39.38Z, Instrument: MSI, Mode: , Satellite: Sentinel-2, Size: 462.12 MB</mmd:title>
+  <mmd:abstract xml:lang="en">
+            Each of the satellites in the SENTINEL-2 mission carries a single payload: the Multi-Spectral Instrument (MSI).
+          </mmd:abstract>
+  <mmd:related_information>
+    <mmd:type>Users guide</mmd:type>
+    <mmd:description>URI to a users guide or product manual for the dataset.</mmd:description>
+    <mmd:resource>https://sentinel.esa.int/web/sentinel/missions/sentinel-2</mmd:resource>
+  </mmd:related_information>
+  <mmd:last_metadata_update>2020-01-01T15:36:44.612Z</mmd:last_metadata_update>
+  <mmd:dataset_language>en</mmd:dataset_language>
+  <mmd:dataset_production_status>In Work</mmd:dataset_production_status>
+  <mmd:operational_status>Operational</mmd:operational_status>
+  <mmd:temporal_extent>
+    <mmd:start_date>2020-01-01T10:54:39.38Z</mmd:start_date>
+    <mmd:end_date>2020-01-01T10:55:48.41Z</mmd:end_date>
+  </mmd:temporal_extent>
+  <mmd:geographic_extent>
+    <mmd:rectangle srsName="EPSG:4326">
+      <mmd:north>58.640547</mmd:north>
+      <mmd:south>57.643705</mmd:south>
+      <mmd:west>7.277101</mmd:west>
+      <mmd:east>9.167442</mmd:east>
+    </mmd:rectangle>
+  </mmd:geographic_extent>
+  <mmd:project>
+    <mmd:short_name>NBS</mmd:short_name>
+    <mmd:long_name>Nasjonalt BakkeSegment</mmd:long_name>
+  </mmd:project>
+  <mmd:activity_type>Space Borne Instrument</mmd:activity_type>
+  <mmd:iso_topic_category>climatologyMeteorologyAtmosphere</mmd:iso_topic_category>
+  <mmd:iso_topic_category>oceans</mmd:iso_topic_category>
+  <mmd:iso_topic_category>imageryBaseMapsEarthCover</mmd:iso_topic_category>
+  <mmd:keywords vocabulary="GCMD">
+    <mmd:keyword>Earth Science &gt; Atmosphere &gt; Atmospheric radiation &gt; Reflectance</mmd:keyword>
+  </mmd:keywords>
+  <mmd:instrument>
+    <mmd:short_name>MSI</mmd:short_name>
+    <mmd:long_name>Multi-Spectral Instrument</mmd:long_name>
+    <mmd:mode>INS-NOBS</mmd:mode>
+  </mmd:instrument>
+  <mmd:data_center>
+    <mmd:data_center_name>
+      <mmd:short_name>METNO</mmd:short_name>
+      <mmd:long_name>Norwegian Meteorological Institute</mmd:long_name>
+    </mmd:data_center_name>
+    <mmd:data_center_url>https://met.no</mmd:data_center_url>
+    <mmd:contact>
+      <mmd:role>Data center contact</mmd:role>
+      <mmd:name>NBS Helpdesk</mmd:name>
+      <mmd:email>nbs-helpdesk@met.no</mmd:email>
+      <mmd:phone/>
+      <mmd:fax/>
+    </mmd:contact>
+  </mmd:data_center>
+  <mmd:cloud_cover>
+    <mmd:value unit="%">99.89</mmd:value>
+  </mmd:cloud_cover>
+  <mmd:data_access>
+    <mmd:type>OPeNDAP</mmd:type>
+    <mmd:description>Open-source Project for a Network Data Access Protocol.</mmd:description>
+    <mmd:resource>http://nbstds.met.no/thredds/dodsC/NBS/S2A/2020/01/01/S2A_MSIL1C_20200101T105441_N0202_R051_T32VMK_20200101T144247_DTERRENGDATA.nc</mmd:resource>
+    <mmd:wms_layers>
+      <mmd:wms_layer/>
+    </mmd:wms_layers>
+  </mmd:data_access>
+  <mmd:data_access>
+    <mmd:type>OGC WMS</mmd:type>
+    <mmd:description>OGC Web Mapping Service, URI to GetCapabilities Document.</mmd:description>
+    <mmd:resource>http://nbswms.met.no/thredds/wms_ql/NBS/S2A/2020/01/01/S2A_MSIL1C_20200101T105441_N0202_R051_T32VMK_20200101T144247_DTERRENGDATA.nc</mmd:resource>
+    <mmd:wms_layers>
+      <mmd:wms_layer>True Color Vegetation Composite</mmd:wms_layer>
+      <mmd:wms_layer>False Color Vegetation Composite</mmd:wms_layer>
+      <mmd:wms_layer>False Color Glacier Composite</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B1</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B2</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B3</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B4</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B5</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B6</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B7</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B8</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B8A</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B9</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B10</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B11</mmd:wms_layer>
+      <mmd:wms_layer>Reflectance in band B12</mmd:wms_layer>
+      <mmd:wms_layer>Cloud mask 10m resolution</mmd:wms_layer>
+    </mmd:wms_layers>
+  </mmd:data_access>
+  <mmd:data_access>
+    <mmd:type>HTTP</mmd:type>
+    <mmd:description>Direct access to the full data file. May require authentication, but should point directly to the data file or a catalogue containing the data.</mmd:description>
+    <mmd:resource>http://nbstds.met.no/thredds/fileServer/NBS/S2A/2020/01/01/S2A_MSIL1C_20200101T105441_N0202_R051_T32VMK_20200101T144247_DTERRENGDATA.nc</mmd:resource>
+    <mmd:wms_layers>
+      <mmd:wms_layer/>
+    </mmd:wms_layers>
+  </mmd:data_access>
+  <mmd:related_information>
+    <mmd:type>Dataset landing page</mmd:type>
+    <mmd:description>A dataset landing page.</mmd:description>
+    <mmd:resource>http://nbstds.met.no/thredds/catalog/NBS/S2A/2020/01/01/catalog.html?dataset=nbs/S2A/2020/01/01/S2A_MSIL1C_20200101T105441_N0202_R051_T32VMK_20200101T144247_DTERRENGDATA.nc</mmd:resource>
+  </mmd:related_information>
+  <mmd:data_access>
+    <mmd:type>ODATA</mmd:type>
+    <mmd:description>Open Data Protocol.</mmd:description>
+    <mmd:resource>https://colhub.met.no/odata/v1/Products('27cf5fe1-4e01-4949-81b8-2a30801d4113')/$value</mmd:resource>
+    <mmd:wms_layers>
+      <mmd:wms_layer/>
+    </mmd:wms_layers>
+  </mmd:data_access>
+</mmd:mmd>
