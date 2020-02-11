@@ -13,8 +13,13 @@ services:
     volumes:
       - ./Volumes/CSW/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
       - ./Volumes/CSW/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
+      - ./Volumes/CSW/commands/mmd2isofix.py:/usr/local/bin/mmd2isofix.py
+      - ./Volumes/CSW/commands/mmd-to-iso.xsl:/usr/local/share/mmd-to-iso.xsl
       - ./Volumes/data:/data
-    command: /bin/sh /usr/local/bin/pycsw_setup.sh
+    # command: /bin/sh /usr/local/bin/pycsw_setup.sh
+    entrypoint:
+      - /bin/sh
+      - /usr/local/bin/pycsw_setup.sh
 
   dynamic-geoassets-api:
     build:
