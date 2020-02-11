@@ -2,7 +2,7 @@
 ## Getting started
 Start all prototype components.
 
-First install dependencies by following the documentation here:
+First install dependencies needed for starting the prototype by following these [instructions](https://s-enda-documentation.readthedocs.io/en/latest/devel_environ.html#Installation)
 
 ### Run Prototype
 ```shell
@@ -15,6 +15,3 @@ http://10.20.30.10:8000
 
 #### Dynamic geoassets api
 http://10.20.30.10:8080
-
-#### See data dashboard
-http://10.20.30.10:3000
