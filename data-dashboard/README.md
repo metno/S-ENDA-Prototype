@@ -1,6 +1,12 @@
 # S-ENDA Data dashboard
 This project was bootstrapped with [MET React Boilerplate](https://gitlab.met.no/team-frontend/react-boilerplate.git).
 
+## Relevant files for this project
+```
+src/
+Dockerfile
+```
+
 ## Test dashboard locally
 ```shell
 npm install
