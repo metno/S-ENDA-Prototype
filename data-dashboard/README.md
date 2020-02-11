@@ -15,8 +15,7 @@ npm start
 
 ## Build and run dashboard docker container
 ```
-docker build -t data-dashboard .
-docker run -p 8081:80 data-dashboard
+docker-compose up data-dashboard
 ```
 
 ### Background information
