@@ -123,7 +123,7 @@ def fixrecord(doc, pretty=False):
     return xmltodict.unparse(doc, pretty=pretty)
 
 
-def writerecord(inputfile, xsl='/usr/local/bin/mmd-to-iso.xsl', outdir='/home/pycsw/sample_data/nbs_iso'):
+def writerecord(inputfile, xsl='/usr/local/share/mmd-to-iso.xsl', outdir='/home/pycsw/sample_data/nbs_iso'):
     pathlib.Path(outdir).mkdir(parents=True, exist_ok=True)
     iso_xml = mmd2iso(inputfile, xsl)
     outputfile = pathlib.PurePosixPath(outdir).joinpath(pathlib.PurePosixPath(inputfile).name)
