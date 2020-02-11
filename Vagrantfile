@@ -40,6 +40,6 @@ Vagrant.configure("2") do |config|
     apt-get install -y wget unattended-upgrades
     apt-get install -y docker.io docker-compose
     cd /vagrant
-    docker-compose up -d pycsw
+    docker-compose up -d
   SHELL
 end
