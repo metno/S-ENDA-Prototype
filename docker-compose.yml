@@ -13,10 +13,8 @@ services:
     volumes:
       - ./Volumes/CSW/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
       - ./Volumes/CSW/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
-      - ./Volumes/CSW/sample_data:/home/pycsw/sample_data
-    entrypoint:
-      - /bin/sh
-      - /usr/local/bin/pycsw_setup.sh
+      - ./Volumes/data:/data
+    command: /bin/sh /usr/local/bin/pycsw_setup.sh
 
   dynamic-geoassets-api:
     build:
