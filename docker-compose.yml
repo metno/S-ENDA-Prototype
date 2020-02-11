@@ -40,7 +40,6 @@ services:
     entrypoint:
       - /bin/sh
       - /usr/local/bin/pycsw_setup.sh
-
   dynamic-geoassets-api:
     build:
       context: ./dynamic-geoassets-api/
@@ -49,4 +48,13 @@ services:
     image: metno/senda-dynamic-geoassets-api
     ports:
       - "8080:8080"
+    restart: unless-stopped
+  data-dashboard:
+    build:
+      context: ./data-dashboard/
+      dockerfile: Dockerfile
+    container_name: senda-data-dashboard
+    image: metno/senda-data-dashboard
+    ports:
+      - "8081:80"
     restart: unless-stopped
