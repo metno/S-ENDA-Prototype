@@ -3,7 +3,7 @@ services:
 
   pycsw:
     build:
-      context: ./CSW/
+      context: ./pycsw/
       dockerfile: Dockerfile
     container_name: senda-csw
     image: metno/senda-csw
@@ -12,15 +12,15 @@ services:
     restart: unless-stopped
     environment:
       INDEXDB: "true"
-      METADATA: "/data/mmd_xml/nbs"
-      OUTPUT_ISO: "/data/iso_xml/nbs"
+      METADATA: "/mmd/nbs"
+      OUTPUT_ISO: "/home/pycsw/iso_xml/nbs"
     volumes:
-      - ./Volumes/CSW/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
-      - ./Volumes/CSW/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
-      - ./Volumes/CSW/commands/mmd2isofix.py:/usr/local/bin/mmd2isofix.py
-      - ./Volumes/CSW/commands/mmd-to-iso.xsl:/usr/local/share/mmd-to-iso.xsl
-      - ./Volumes/data:/data
-    # command: /bin/sh /usr/local/bin/pycsw_setup.sh
+      - ./Volumes/pycsw/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
+      - ./Volumes/pycsw/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
+      - ./Volumes/pycsw/commands/mmd2isofix.py:/usr/local/bin/mmd2isofix.py
+      - ./Volumes/pycsw/commands/mmd-to-iso.xsl:/usr/local/share/mmd-to-iso.xsl
+      - ./Volumes/mmd:/mmd:ro
+
     entrypoint:
       - /bin/sh
       - /usr/local/bin/pycsw_setup.sh
