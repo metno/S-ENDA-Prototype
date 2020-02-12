@@ -9,3 +9,12 @@
 
 # Windows
 Thumbs.db
+
+# IPs
+config.yml
+
+# Vagrant
+.vagrant/
+
+# Logs
+*.log

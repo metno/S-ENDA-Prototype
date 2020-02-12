@@ -1,27 +1,6 @@
 version: '3.5'
 services:
 
-  postgres:
-    build:
-      context: ./postgres/
-      dockerfile: Dockerfile
-    container_name: senda-postgres
-    image: metno/senda-postgres
-    restart: always
-    hostname: postgres
-    environment:
-      POSTGRES_INITDB_ARGS: "-E UTF8"
-      POSTGRES_DB: csw_db
-      POSTGRES_USER: csw_user
-      POSTGRES_PASSWORD: csw_password
-      LANGUAGE: "en_US.UTF-8"
-      LANG: "en_US.UTF-8"
-      LC_ALL: "en_US.UTF-8"
-    volumes:
-      - ./Volumes/postgres/data:/var/lib/postgresql/11
-    ports:
-      - "5432:5432"
-
   pycsw:
     build:
       context: ./CSW/
@@ -31,15 +10,12 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
-    depends_on:
-      - "postgres"
     volumes:
       - ./Volumes/CSW/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
       - ./Volumes/CSW/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
-      - ./Volumes/CSW/sample_data:/home/pycsw/sample_data
-    entrypoint:
-      - /bin/sh
-      - /usr/local/bin/pycsw_setup.sh
+      - ./Volumes/data:/data
+    command: /bin/sh /usr/local/bin/pycsw_setup.sh
+   
   dynamic-geoassets-api:
     build:
       context: ./dynamic-geoassets-api/
@@ -49,6 +25,7 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    
   data-dashboard:
     build:
       context: ./data-dashboard/
