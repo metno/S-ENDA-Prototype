@@ -24,6 +24,7 @@ services:
     entrypoint:
       - /bin/sh
       - /usr/local/bin/pycsw_setup.sh
+
   dynamic-geoassets-api:
     build:
       context: ./dynamic-geoassets-api/
@@ -33,6 +34,7 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+
   data-dashboard:
     build:
       context: ./data-dashboard/
