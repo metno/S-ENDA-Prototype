@@ -1,0 +1,27 @@
+/*
+The font softwares linked herebelow are the
+property of Swiss Typefaces Sàrl.
+You may not download the font softwares.
+Purchase and licensing informations are
+available at http://www.swisstypefaces.com/
+licensing/
+Copyright (C) Swiss Typefaces Sàrl
+*/
+
+@font-face {
+    font-family: 'Simplon BP Regular';
+    src: url("simplon-fonts/Simplon_BP_Regular_1.ttf");
+    src: url("simplon-fonts/SimplonNorm-Regular-WebS.woff");
+}
+
+html, body {
+    height: 100%;
+    font-size: 14px;
+}
+
+body {
+    font-family: 'Simplon BP Regular';
+    line-height: 1.4;
+    color: #4A4A4A;
+    background-color: #FFFFFF;
+}
