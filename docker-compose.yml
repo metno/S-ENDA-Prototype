@@ -3,19 +3,28 @@ services:
 
   pycsw:
     build:
-      context: ./CSW/
+      context: ./pycsw/
       dockerfile: Dockerfile
     container_name: senda-csw
     image: metno/senda-csw
     ports:
       - "8000:8000"
     restart: unless-stopped
+    environment:
+      INDEXDB: "true"
+      METADATA: "/mmd/nbs"
+      OUTPUT_ISO: "/home/pycsw/iso_xml/nbs"
     volumes:
-      - ./Volumes/CSW/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
-      - ./Volumes/CSW/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
-      - ./Volumes/data:/data
-    command: /bin/sh /usr/local/bin/pycsw_setup.sh
-   
+      - ./Volumes/pycsw/conf/pycsw.cfg:/etc/pycsw/pycsw.cfg
+      - ./Volumes/pycsw/commands/pycsw_setup.sh:/usr/local/bin/pycsw_setup.sh
+      - ./Volumes/pycsw/commands/mmd2isofix.py:/usr/local/bin/mmd2isofix.py
+      - ./Volumes/pycsw/commands/mmd-to-iso.xsl:/usr/local/share/mmd-to-iso.xsl
+      - ./Volumes/mmd:/mmd:ro
+
+    entrypoint:
+      - /bin/sh
+      - /usr/local/bin/pycsw_setup.sh
+
   dynamic-geoassets-api:
     build:
       context: ./dynamic-geoassets-api/
@@ -25,7 +34,7 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
-    
+
   data-dashboard:
     build:
       context: ./data-dashboard/

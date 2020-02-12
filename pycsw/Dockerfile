@@ -49,6 +49,9 @@ RUN git clone https://github.com/geopython/pycsw.git \
 ENV PYCSW_CONFIG=/etc/pycsw/pycsw.cfg
 
 RUN pip3 install xmltodict
+RUN pip3 install parmap
+RUN pip3 install tqdm
+
 
 # COPY sample configuration to run pycsw as wsgi application under apache
 ADD conf/pycsw.conf /etc/apache2/sites-enabled/pycsw.conf
