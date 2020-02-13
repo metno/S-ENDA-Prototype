@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import HomePage from '../Home/Home';
 //import ContactPage from '../Contact/Contact';
 import Register from '../Register/Register';
+import DataLandingPage from '../DataLandingPage/DataLandingPage';
 import {MuiThemeProvider, withStyles} from '@material-ui/core/styles';
 import createTheme from 'utils/createTheme'
 import PropTypes from "prop-types";
@@ -43,6 +44,13 @@ class App extends Component {
                         <MuiThemeProvider theme={createTheme(teal_palette, black_palette)}>
                             <Header/>
                             <Register />
+                            <Footer/>
+                        </MuiThemeProvider>
+                    )}/>
+                    <Route exact={true} path='/datalandingpage' render={() => (
+                        <MuiThemeProvider theme={createTheme(teal_palette, black_palette)}>
+                            <Header/>
+                            <DataLandingPage />
                             <Footer/>
                         </MuiThemeProvider>
                     )}/>
