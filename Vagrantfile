@@ -35,12 +35,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "00-bootstrap", type: "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y wget unattended-upgrades
     apt-get install -y docker.io docker-compose
+  SHELL
+
+  config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL
     cd /vagrant
-    docker-compose stop
+    docker-compose down
+    docker-compose build --pull --no-cache
     docker-compose up -d
   SHELL
 end
