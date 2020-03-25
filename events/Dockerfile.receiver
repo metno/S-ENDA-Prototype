@@ -1,0 +1,24 @@
+# Build
+FROM golang:1.13-alpine AS build-app
+WORKDIR /build/app
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+
+COPY . .
+#RUN go test .
+RUN go build -o receiver ./cmd/receiver/receiver.go
+
+# Runtime
+FROM alpine
+
+COPY --from=build-app /build/app/receiver /app/
+
+WORKDIR /app
+USER nobody:nogroup
+
+EXPOSE 8084
+
+ENTRYPOINT ["/app/receiver"]
