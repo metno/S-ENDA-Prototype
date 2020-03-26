@@ -37,7 +37,7 @@ class DataDashboardComponent extends Component {
     };
 
     componentDidMount(){
-        this.connection = new WebSocket('ws://localhost:8084/updates');
+        this.connection = new WebSocket('ws://10.20.30.10:8084/updates');
         this.connection.onmessage = evt => {
             this.setState({
             messages : this.state.messages.concat([ new Date().toLocaleString() + " " + evt.data ]),
