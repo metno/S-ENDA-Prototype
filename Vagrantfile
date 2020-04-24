@@ -16,9 +16,6 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
   config.vm.box_check_update = false
 
-  # TODO: Latest (2020-02-10)  ubuntu box is broken, force use of older box. Remove when upstream is fixed by vendor.
-  config.vm.box_url = "https://cloud-images.ubuntu.com/bionic/20200206/bionic-server-cloudimg-amd64-vagrant.box"
-
   config.vm.network "private_network", ip: "10.20.30.10"
 
   config.vm.provider "virtualbox" do |vb|
