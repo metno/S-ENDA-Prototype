@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "10.20.30.10"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "2096"
-    vb.cpus = 2
+    vb.memory = "4096"
+    vb.cpus = 4
     vb.default_nic_type = "virtio"
   end
 
@@ -32,12 +32,17 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "00-bootstrap", type: "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y wget unattended-upgrades
     apt-get install -y docker.io docker-compose
-    usermod -a -G docker vagrant
+
+  SHELL
+
+  config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL
     cd /vagrant
+    docker-compose down
+    docker-compose build --pull --no-cache
     docker-compose up -d
   SHELL
 end

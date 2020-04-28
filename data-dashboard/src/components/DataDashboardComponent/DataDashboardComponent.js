@@ -66,7 +66,7 @@ class DataDashboardComponent extends Component {
                     <Grid item xs={12} sm={6}>
                         <Paper className={classes.paper}>
                             <Typography variant="headline" gutterBottom>
-                                Arome Arctic
+                            <Link href="/datalandingpage">Arome Arctic</Link>
                             </Typography>
                             <Typography>
                                 <p>
@@ -96,7 +96,7 @@ class DataDashboardComponent extends Component {
                     <Grid item xs={6} sm={3}>
                         <Paper className={classes.paper}>
                             <Typography variant="headline" gutterBottom>
-                                <Link  href="/dataset">Register new dataset</Link>
+                                <Link  href="/dataset">Register new dataset series</Link>
                             </Typography>
                         </Paper>
                     </Grid>

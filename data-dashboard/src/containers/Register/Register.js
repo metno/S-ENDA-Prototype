@@ -37,7 +37,7 @@ class Register extends Component {
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <Typography variant="headline" gutterBottom>
-                                Register a new dataset
+                                Register a new dataset series
                             </Typography>
                             <FormControl>
                                 <TextField 
@@ -61,7 +61,7 @@ class Register extends Component {
                     <Grid item xs={3} justify="center">
                         <Paper className={classes.paper}>
                             <label htmlFor="text-button-file">
-                                <Button component="span">Register dataset</Button>
+                                <Button component="span">Register dataset series</Button>
                             </label>
                         </Paper>
                     </Grid>
