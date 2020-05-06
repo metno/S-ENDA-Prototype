@@ -31,7 +31,7 @@ func main() {
 		log.Printf("[ERROR] Failed to process env var: %s", err)
 		os.Exit(1)
 	}
-	os.Exit(_main(os.Args[1:], env))
+	os.Exit(startWebsocketBridge(env))
 }
 
 func receive(ctx context.Context, event cloudevents.Event, resp *cloudevents.EventResponse) error {
@@ -49,8 +49,8 @@ func receive(ctx context.Context, event cloudevents.Event, resp *cloudevents.Eve
 	return nil
 }
 
-func _main(args []string, env config.EnvConfig) int {
-	fmt.Printf("Receiver running...\n")
+func startWebsocketBridge(env config.EnvConfig) int {
+	fmt.Printf("Websocket bridge starting...\n")
 	ctx := context.Background()
 
 	eventsChannel = make(chan datastructs.Example, 10)

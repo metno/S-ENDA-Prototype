@@ -9,16 +9,16 @@ RUN go mod download
 
 COPY . .
 #RUN go test .
-RUN go build -o receiver ./cmd/receiver/receiver.go
+RUN go build -o websocket-bridge ./cmd/websocket-bridge/websocket-bridge.go
 
 # Runtime
 FROM alpine
 
-COPY --from=build-app /build/app/receiver /app/
+COPY --from=build-app /build/app/websocket-bridge /app/
 
 WORKDIR /app
 USER nobody:nogroup
 
 EXPOSE 8084
 
-ENTRYPOINT ["/app/receiver"]
+ENTRYPOINT ["/app/websocket-bridge"]

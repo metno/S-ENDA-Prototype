@@ -19,12 +19,14 @@ import (
 )
 
 func main() {
+	ch := make(chan bool)
+
 	var env config.EnvConfig
 	if err := envconfig.Process("", &env); err != nil {
 		log.Printf("[ERROR] Failed to process env var: %s", err)
 		os.Exit(1)
 	}
-	os.Exit(_main(os.Args[1:], env))
+	os.Exit(startDataEventsServer(ch, env))
 }
 
 // Simple holder for the sending sample.
@@ -47,11 +49,14 @@ func (d *Demo) Send(eventContext cloudevents.EventContext, i int) (context.Conte
 	return d.Client.Send(context.Background(), event)
 }
 
-func _main(args []string, env config.EnvConfig) int {
+func stopDataEventsServer(ch chan bool) {
+	ch <- true
+}
+
+func startDataEventsServer(ch chan bool, env config.EnvConfig) int {
 	source, err := url.Parse("https://github.com/metno/S-ENDA-Prototype/events/cmd/sender")
 	if err != nil {
-		log.Printf("failed to parse source url, %v", err)
-		return 1
+		log.Fatalf("failed to parse source url, %v", err)
 	}
 
 	seq := 0
@@ -59,13 +64,11 @@ func _main(args []string, env config.EnvConfig) int {
 	contentType := "application/json"
 	t, err := cloudeventsnats.New(env.NATSServer, env.Subject)
 	if err != nil {
-		log.Printf("failed to create nats transport, %s", err.Error())
-		return 1
+		log.Fatalf("Failed to create nats transport. NATSServer %s, Subject %s, %s", env.NATSServer, env.Subject, err.Error())
 	}
 	c, err := client.New(t)
 	if err != nil {
-		log.Printf("failed to create client, %s", err.Error())
-		return 1
+		log.Fatalf("failed to create client, %s", err.Error())
 	}
 
 	d := &Demo{
@@ -88,13 +91,18 @@ func _main(args []string, env config.EnvConfig) int {
 	fmt.Printf("Sending an event every %d seconds\n", 2)
 	for {
 		if _, _, err := d.Send(&ctx, seq); err != nil {
-			log.Printf("failed to send: %v", err)
+			log.Fatalf("failed to send: %v", err)
 			return 1
 		}
 		seq++
 		time.Sleep(2000 * time.Millisecond)
 
+		select {
+		case <-ch:
+			fmt.Println("Received termination message. Switching off.")
+			return 0
+		default:
+			continue
+		}
 	}
-
-	return 0
 }

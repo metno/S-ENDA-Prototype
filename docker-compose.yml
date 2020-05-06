@@ -8,7 +8,7 @@ services:
     container_name: senda-csw
     image: metno/senda-csw
     ports:
-      - "80:8000"
+      - "8000:8000"
     restart: unless-stopped
     environment:
       INDEXDB: "true"
@@ -44,3 +44,38 @@ services:
     ports:
       - "8081:80"
     restart: unless-stopped
+
+  nats:
+    container_name: nats-main
+    image: nats
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    restart: unless-stopped
+
+  sender:
+    container_name: sender
+    build:
+      context: ./events/
+      dockerfile: Dockerfile.sender
+    container_name: sender
+    image: metno/senda-sender
+    restart: unless-stopped
+    environment:
+      NATS_SERVER: "http://nats-main:4222"
+      SUBJECT: "senda"
+
+  websocket-bridge:
+    container_name: websocket-bridge
+    build:
+      context: ./events/
+      dockerfile: Dockerfile.websocket-bridge
+    container_name: websocket-bridge
+    image: metno/senda-websocket-bridge
+    restart: unless-stopped
+    environment:
+      NATS_SERVER: "http://nats-main:4222"
+      SUBJECT: "senda"
+    ports:
+      - "8084:8084"
