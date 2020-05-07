@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import homePageImg from './homePageImg.png';
 import Typography from "@material-ui/core/Typography/Typography";
 import Link from '@material-ui/core/Link';
+import './DataDashboardComponent.css';
 
 
 const styles = theme => ({
@@ -23,18 +24,35 @@ const styles = theme => ({
     },
     homePageImg: {
         maxWidth: '100%',
-    }
+    },
 });
 
 
 class DataDashboardComponent extends Component {
 
     state = {
-        persons: []
+        persons: [],
+        messages: [],
+        showHeart: false
     };
+
+    componentDidMount(){
+        this.connection = new WebSocket('ws://10.20.30.10:8084/updates');
+        this.connection.onmessage = evt => {
+            this.setState({
+            messages : this.state.messages.concat([ new Date().toLocaleString() + " " + evt.data ]),
+            showHeart: true
+          });
+          setTimeout(
+              function() {
+                this.setState({showHeart: false});
+          }.bind(this), 1000);
+        };
+      }
 
     render() {
         const { classes } = this.props;
+        const style = this.state.showHeart ? {} : {display: 'none'};
         return (
             <div className={classes.root}>
                 <Grid container spacing={24}>
@@ -87,6 +105,17 @@ class DataDashboardComponent extends Component {
                             <Typography variant="headline" gutterBottom>
                                 <Link href="#metrics">Statistics about data production and usage</Link>
                             </Typography>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Paper className={classes.paperImage}>
+                            <Typography variant="headline" gutterBottom>
+                                Last heartbeat from NATS
+                            </Typography>
+                            <Typography className={this.state.showHeart?'fadeIn':'fadeOut'}>
+                                <div>❤️</div>
+                            </Typography>
+                                <table>{ this.state.messages.slice(-5).map( (msg, idx) => <tr key={'msg-' + idx }>{ msg }</tr> )}</table>
                         </Paper>
                     </Grid>
                 </Grid>

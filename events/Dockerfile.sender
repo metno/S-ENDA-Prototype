@@ -1,0 +1,25 @@
+# Build
+FROM golang:1.14-alpine AS build-app
+WORKDIR /build/app
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+
+COPY . .
+#FIXME: not able to run tests because of
+## runtime/cgo
+#exec: "gcc": executable file not found in $PATH
+#RUN go test ./cmd/sender/sender.go
+RUN go build -o sender ./cmd/sender/sender.go
+
+# Runtime
+FROM alpine
+
+COPY --from=build-app /build/app/sender /app/
+
+WORKDIR /app
+USER nobody:nogroup
+
+ENTRYPOINT ["/app/sender"]
