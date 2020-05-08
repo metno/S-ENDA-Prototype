@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL
     cd /vagrant
     docker-compose down
-    docker-compose build --pull --no-cache
+    docker-compose build --pull
     docker-compose up -d
   SHELL
 end
