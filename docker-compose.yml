@@ -18,8 +18,6 @@ services:
   #
 
   catalog-service-api:
-    build:
-      context: ./catalog-service-api
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-catalog-service-api
     ports:
       - "8000:8000"
@@ -37,8 +35,6 @@ services:
   #
 
   dynamic-geoassets-api:
-    build:
-      context: ./dynamic-geoassets-api
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-dynamic-geoasset-api
     ports:
       - "8080:8080"
@@ -50,8 +46,6 @@ services:
   #
 
   data-dashboard:
-    build:
-      context: ./data-dashboard
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-dash-board
     ports:
       - "8081:80"
@@ -72,9 +66,6 @@ services:
     restart: *default-restart-policy
 
   event-engine-sender:
-    build:
-      context: ./event-engine
-      dockerfile: Dockerfile.sender
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-event-engine-sender
     depends_on:
       - nats
@@ -90,9 +81,6 @@ services:
   # FIXME: Find out if we're going to expose this port to the world
 
   event-engine-websocket-bridge:
-    build:
-      context: ./event-engine
-      dockerfile: Dockerfile.websocket-bridge
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-event-engine-websocket-bridge
     depends_on:
       - nats

@@ -1,4 +1,4 @@
-# Usage: docker-compose -f docker-compose.yml -f docker-compose.test.yml build
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.build.yml build
 ---
 version: '3.4'
 
