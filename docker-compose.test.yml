@@ -1,0 +1,107 @@
+---
+version: '3.4'
+
+x-restart:
+  &default-restart-policy
+  unless-stopped
+
+x-logging:
+  &default-logging-policy
+    driver: journald
+
+networks:
+  event-engine:
+
+services:
+  #
+  # catalog-service-api (pycsw)
+  #
+
+  catalog-service-api:
+    build:
+      context: ./catalog-service-api
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-catalog-service-api
+    ports:
+      - "8000:8000"
+    environment:
+      INDEXDB: "true"
+      METADATA: "/mmd/nbs"
+      OUTPUT_ISO: "/home/pycsw/iso_xml/nbs"
+    volumes:
+      - ./Volumes/mmd:/mmd:ro
+    logging: *default-logging-policy
+    restart: *default-restart-policy
+
+  #
+  # dynamic-geoasset-api
+  #
+
+  dynamic-geoassets-api:
+    build:
+      context: ./dynamic-geoassets-api
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-dynamic-geoasset-api
+    ports:
+      - "8080:8080"
+    logging: *default-logging-policy
+    restart: *default-restart-policy
+
+  #
+  # data-dashboard
+  #
+
+  data-dashboard:
+    build:
+      context: ./data-dashboard
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-dash-board
+    ports:
+      - "8081:80"
+    logging: *default-logging-policy
+    restart: *default-restart-policy
+
+  #
+  # event-engine components
+  #
+
+  nats:
+    image: nats:2.1
+    networks:
+      event-engine:
+        aliases:
+          - nats-main
+    logging: *default-logging-policy
+    restart: *default-restart-policy
+
+  event-engine-sender:
+    build:
+      context: ./event-engine
+      dockerfile: Dockerfile.sender
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-event-engine-sender
+    depends_on:
+      - nats
+    environment:
+      NATS_SERVER: "http://nats-main:4222"
+      SUBJECT: "senda"
+    networks:
+      - event-engine
+    logging: *default-logging-policy
+    restart: *default-restart-policy
+
+
+  # FIXME: Find out if we're going to expose this port to the world
+
+  event-engine-websocket-bridge:
+    build:
+      context: ./event-engine
+      dockerfile: Dockerfile.websocket-bridge
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-event-engine-websocket-bridge
+    depends_on:
+      - nats
+    environment:
+      NATS_SERVER: "http://nats-main:4222"
+      SUBJECT: "senda"
+    ports:
+      - "8084:8084"
+    networks:
+      - event-engine
+    logging: *default-logging-policy
+    restart: *default-restart-policy
