@@ -12,6 +12,27 @@ rescue StandardError => msg
   vagrant_config = {}
 end
 
+$welcome_msg = <<MSG
+-----------------------------------------------------------------
+S-ENDA Prototype started from the latest development version from
+https://hub.docker.com/repository/docker/metno/senda-prototype
+
+URLs and ports:
+ - catalog-service-api  - http://10.20.30.10:8000
+ - dynamic-geoasset-api - http://10.20.30.10:8080
+ - data-dashboard       - http://10.20.30.10:8081
+ - websocket-bridge     - 10.20.30.10:8084
+
+To build/re-build and start services from source run and re-run:
+
+  BUILD=1 vagrant up
+
+Stop and remove development environment with:
+
+  vagrant destroy -f
+-----------------------------------------------------------------
+MSG
+
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
   config.vm.box_check_update = false
@@ -41,8 +62,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL
     cd /vagrant
-    docker-compose down
-    docker-compose build --pull
+    if [[ -n "#{ENV['BUILD']}" ]]
+    then
+      docker-compose -f docker-compose.yml -f docker-compose.build.yml build --pull
+    fi
     docker-compose up -d
   SHELL
+
+  config.vm.post_up_message = $welcome_msg
 end
