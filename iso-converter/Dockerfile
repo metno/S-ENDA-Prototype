@@ -21,11 +21,22 @@ LABEL maintainer="aheimsbakk@met.no"
 
 ENV GEOMETA_VERSION=0.5.0
 
-RUN apk add --no-cache \
-  py3-pip; \
-  pip3 install "pygeometa==${GEOMETA_VERSION}"; \
-  ln -s /usr/bin/python3 /usr/bin/python
+RUN apk add \
+      libxml2 \
+      libxslt \
+      python3
+RUN apk add --no-cache --virtual .build-deps \
+      build-base \
+      libxml2-dev \
+      libxslt-dev \
+      py3-pip \
+      python3-dev; \
+    pip3 install \
+      pygeometa==${GEOMETA_VERSION} \
+      lxml==4.5.0; \
+    apk del .build-deps; \
+    ln -s /usr/bin/python3 /usr/bin/python
 
 COPY --from=builder /mmd/bin/convert_to_mmd /usr/local/bin
-COPY --from=builder /mmd/mmd_utils /usr/lib/python3.8/
+COPY --from=builder /mmd/mmd_utils/ /usr/lib/python3.8/site-packages/mmd_utils/
 
