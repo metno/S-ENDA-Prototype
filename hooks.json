@@ -1,0 +1,7 @@
+[
+  {
+    "id": "redeploy-webhook",
+    "execute-command": "/vagrant/deploy-metadata.sh",
+    "command-working-directory": "/vagrant"
+  }
+]

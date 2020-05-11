@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "00-bootstrap", type: "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y wget unattended-upgrades
+    apt-get install -y git webhook wget unattended-upgrades
     apt-get install -y docker.io docker-compose
 
   SHELL
