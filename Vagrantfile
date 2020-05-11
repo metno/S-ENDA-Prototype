@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y git webhook wget unattended-upgrades
     apt-get install -y docker.io docker-compose
-
+    cp /vagrant/hooks.json /etc/webhook.conf
   SHELL
 
   config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL
