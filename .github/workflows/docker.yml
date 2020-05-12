@@ -9,7 +9,6 @@ on:
     # except on document and ci changes
     branches:
       - master
-      - issue44_autodeploy
     tags:
       - '*'
     paths-ignore:
