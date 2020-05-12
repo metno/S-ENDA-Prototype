@@ -4,6 +4,8 @@ echo "Webhook triggered." | systemd-cat -t webhook-handler
 # Work in shared folder
 cd /vagrant
 
+mkdir -p isostore
+
 # Check out latest version of metadata
 if [ -d S-ENDA-metadata ]; then
   echo "Repository exists locally, running git pull." | systemd-cat -t webhook-handler
@@ -13,6 +15,7 @@ fi
   git clone https://github.com/metno/S-ENDA-metadata
 fi
 
+docker-compose run -v ./isostore:/isostore -v ./S-ENDA-metadata:/mcfdir iso-converter convert-all-mcfs.py --mcfdir /mcfdir --outdir /isostore
 
 # Restart catalog-service-api
 docker-compose restart catalog-service-api
