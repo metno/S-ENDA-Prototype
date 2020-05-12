@@ -27,3 +27,6 @@ docker-compose.override.yml
 
 # Never check in metadata repository
 S-ENDA-metadata
+
+# Visualstudio
+.vscode/
