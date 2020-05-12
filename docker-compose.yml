@@ -93,3 +93,10 @@ services:
       - event-engine
     logging: *default-logging-policy
     restart: *default-restart-policy
+
+  #
+  # iso-converter
+  #
+
+  iso-converter:
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-iso-converter
