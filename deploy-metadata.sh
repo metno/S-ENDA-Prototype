@@ -9,7 +9,9 @@ mkdir -p isostore
 # Check out latest version of metadata
 if [ -d S-ENDA-metadata ]; then
   echo "Repository exists locally, running git pull." | systemd-cat -t webhook-handler
+  cd S-ENDA-metadata
   git pull
+  cd ..
 else
   echo "Cloning repository." | systemd-cat -t webhook-handler
   git clone https://github.com/metno/S-ENDA-metadata
