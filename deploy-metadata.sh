@@ -17,7 +17,9 @@ else
   git clone https://github.com/metno/S-ENDA-metadata
 fi
 
+rm -rf /isostore/*
 docker-compose run -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mcfdir iso-converter convert-all-mcfs.py --mcfdir /mcfdir --outdir /isostore
+docker-compose run -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mmddir iso-converter mmd2isofix.py -i /mmddir -o /isostore
 
 # Restart catalog-service-api
 docker-compose restart catalog-service-api
