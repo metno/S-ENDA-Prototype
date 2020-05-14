@@ -18,7 +18,7 @@ S-ENDA Prototype started from the latest development version from
 https://hub.docker.com/repository/docker/metno/senda-prototype
 
 URLs and ports:
- - catalog-service-api  - http://10.20.30.10:8000
+ - catalog-service-api  - http://10.20.30.10:80
  - dynamic-geoasset-api - http://10.20.30.10:8080
  - data-dashboard       - http://10.20.30.10:8081
  - websocket-bridge     - 10.20.30.10:8084
@@ -55,9 +55,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "00-bootstrap", type: "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y wget unattended-upgrades
+    apt-get install -y git webhook wget unattended-upgrades
     apt-get install -y docker.io docker-compose
-
+    cp /vagrant/hooks.json /etc/webhook.conf
+    systemctl restart webhook
+    ./deploy-metadata.sh
   SHELL
 
   config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL

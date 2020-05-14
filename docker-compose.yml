@@ -20,13 +20,12 @@ services:
   catalog-service-api:
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-catalog-service-api
     ports:
-      - "8000:8000"
+      - "80:8000"
     environment:
       INDEXDB: "true"
-      METADATA: "/mmd/nbs"
-      OUTPUT_ISO: "/home/pycsw/iso_xml/nbs"
+      ISO_STORE: "/isostore"
     volumes:
-      - ./Volumes/mmd:/mmd:ro
+      - ./isostore:/isostore:ro
     logging: *default-logging-policy
     restart: *default-restart-policy
 
@@ -93,3 +92,10 @@ services:
       - event-engine
     logging: *default-logging-policy
     restart: *default-restart-policy
+
+  #
+  # iso-converter
+  #
+
+  iso-converter:
+    image: docker.io/metno/senda-prototype:${VERSION:-dev}-iso-converter

@@ -40,3 +40,11 @@ services:
     build:
       context: ./event-engine
       dockerfile: Dockerfile.websocket-bridge
+
+  #
+  # iso-converter
+  #
+
+  iso-converter:
+    build:
+      context: ./iso-converter
