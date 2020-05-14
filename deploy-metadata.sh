@@ -18,8 +18,9 @@ else
 fi
 
 rm -rf /isostore/*
-docker-compose run -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mcfdir iso-converter convert-all-mcfs.py --mcfdir /mcfdir --outdir /isostore
-docker-compose run -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mmddir iso-converter mmd2isofix.py -i /mmddir -o /isostore
+docker-compose run --rm -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mcfdir iso-converter convert-all-mcfs.py --mcfdir /mcfdir --outdir /isostore
+docker-compose run --rm -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mmddir iso-converter mmd2isofix.py -i /mmddir -o /isostore
 
 # Restart catalog-service-api
-docker-compose restart catalog-service-api
+docker-compose rm -sf catalog-service-api
+docker-compose run -d catalog-service-api
