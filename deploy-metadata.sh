@@ -23,4 +23,4 @@ docker-compose run --rm -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metada
 
 # Restart catalog-service-api
 docker-compose rm -sf catalog-service-api
-docker-compose run -d catalog-service-api
+docker-compose up -d catalog-service-api
