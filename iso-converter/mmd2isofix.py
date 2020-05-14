@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import lxml.etree as ET
 import xmltodict
 import pathlib
@@ -123,7 +125,7 @@ def fixrecord(doc, pretty=False):
     return xmltodict.unparse(doc, pretty=pretty)
 
 
-def writerecord(inputfile, xsl='/usr/local/share/mmd-to-iso.xsl', outdir='/home/pycsw/sample_data/nbs_iso'):
+def writerecord(inputfile, xsl='/usr/local/share/mmd-to-iso/mmd-to-iso.xsl', outdir='/tmp'):
     pathlib.Path(outdir).mkdir(parents=True, exist_ok=True)
     iso_xml = mmd2iso(inputfile, xsl)
     outputfile = pathlib.PurePosixPath(outdir).joinpath(pathlib.PurePosixPath(inputfile).name)

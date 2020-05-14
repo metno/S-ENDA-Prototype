@@ -33,11 +33,17 @@ RUN apk add --no-cache --virtual .build-deps \
   python3-dev; \
   pip3 install \
   pygeometa==${GEOMETA_VERSION} \
-  lxml==4.5.0; \
-  apk del .build-deps; \
-  ln -s /usr/bin/python3 /usr/bin/python
+  lxml==4.5.0 \
+  xmltodict==0.12.0 \
+  parmap==1.5.2; \
+  apk del .build-deps
+
+RUN ln -s /usr/bin/python3 /usr/bin/python; \
+    mkdir -p /usr/local/share/mmd-to-iso
 
 COPY --from=builder /mmd/bin/convert_to_mmd /usr/local/bin
 COPY --from=builder /mmd/mmd_utils/ /usr/lib/python3.8/site-packages/mmd_utils/
 COPY convert-all-mcfs.py /usr/local/bin
+COPY mmd2isofix.py /usr/local/bin
+COPY mmd-to-iso.xsl /usr/local/share/mmd-to-iso
 
