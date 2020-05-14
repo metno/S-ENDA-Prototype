@@ -20,7 +20,7 @@ services:
   catalog-service-api:
     image: docker.io/metno/senda-prototype:${VERSION:-dev}-catalog-service-api
     ports:
-      - "8000:8000"
+      - "80:8000"
     environment:
       INDEXDB: "true"
       ISO_STORE: "/isostore"

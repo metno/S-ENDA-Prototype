@@ -18,7 +18,7 @@ S-ENDA Prototype started from the latest development version from
 https://hub.docker.com/repository/docker/metno/senda-prototype
 
 URLs and ports:
- - catalog-service-api  - http://10.20.30.10:8000
+ - catalog-service-api  - http://10.20.30.10:80
  - dynamic-geoasset-api - http://10.20.30.10:8080
  - data-dashboard       - http://10.20.30.10:8081
  - websocket-bridge     - 10.20.30.10:8084
