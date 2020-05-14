@@ -59,7 +59,6 @@ Vagrant.configure("2") do |config|
     apt-get install -y docker.io docker-compose
     cp /vagrant/hooks.json /etc/webhook.conf
     systemctl restart webhook
-    ./deploy-metadata.sh
   SHELL
 
   config.vm.provision "50-rebuild", type: "shell", run: "always", inline: <<-SHELL
@@ -68,6 +67,7 @@ Vagrant.configure("2") do |config|
     then
       docker-compose -f docker-compose.yml -f docker-compose.build.yml build --pull
     fi
+    ./deploy-metadata.sh
     docker-compose up -d
   SHELL
 
