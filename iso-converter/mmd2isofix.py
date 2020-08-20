@@ -9,7 +9,7 @@ import pathlib
 import sys
 
 import warnings
-warnings.warn(os.path.file+': this code will be replaced by new translations in the MMD repository')
+warnings.warn('This code will be replaced by new translations in the MMD repository')
 
 def xml_check(xml_file):
     if pathlib.Path(xml_file).is_file():
