@@ -1,7 +1,7 @@
 # First stage
 FROM alpine:3.11 AS builder
 
-ENV MMD_REPO=https://github.com/mortenwh/mmd
+ENV MMD_REPO=https://github.com/metno/mmd
 ENV MMD_VERSION=${MMD_VERSION:-master}
 
 
