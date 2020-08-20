@@ -28,7 +28,7 @@ Access the various components by pointing your web browser to these addresses.
 
 * PyCSW:
     ```
-    http://10.20.30.10:80
+    http://10.20.30.10:8000
     ```
 * Dynamic geoassets API:
     ```
