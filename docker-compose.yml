@@ -18,7 +18,7 @@ services:
   #
 
   catalog-service-api:
-    image: docker.io/metno/senda-prototype:${VERSION:-dev}-catalog-service-api
+    image: docker.io/metno/senda-csw-catalog-service:${VERSION:-dev}
     ports:
       - "80:8000"
     environment:
@@ -98,4 +98,4 @@ services:
   #
 
   iso-converter:
-    image: docker.io/metno/senda-prototype:${VERSION:-dev}-iso-converter
+    image: docker.io/metno/senda-iso-converter:${VERSION:-dev}

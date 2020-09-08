@@ -4,14 +4,6 @@ version: '3.4'
 
 services:
   #
-  # catalog-service-api (pycsw)
-  #
-
-  catalog-service-api:
-    build:
-      context: ./catalog-service-api
-
-  #
   # dynamic-geoasset-api
   #
 
@@ -40,11 +32,3 @@ services:
     build:
       context: ./event-engine
       dockerfile: Dockerfile.websocket-bridge
-
-  #
-  # iso-converter
-  #
-
-  iso-converter:
-    build:
-      context: ./iso-converter

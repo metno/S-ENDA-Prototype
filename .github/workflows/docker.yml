@@ -53,7 +53,10 @@ jobs:
 
           echo VERSION=$VERSION
           docker-compose -f docker-compose.yml -f docker-compose.build.yml build
-          docker-compose -f docker-compose.yml -f docker-compose.build.yml push
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push dynamic-geoassets-api
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push data-dashboard
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-sender
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-websocket-bridge
 
           # tag and push versions X.X and X and latest
           if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
@@ -61,7 +64,10 @@ jobs:
               export VERSION
               echo VERSION=$VERSION
               docker-compose -f docker-compose.yml -f docker-compose.build.yml build
-              docker-compose -f docker-compose.yml -f docker-compose.build.yml push
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push dynamic-geoassets-api
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push data-dashboard
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-sender
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-websocket-bridge
             done
           fi
 
@@ -87,7 +93,10 @@ jobs:
 
           echo VERSION=$VERSION
           docker-compose -f docker-compose.yml -f docker-compose.build.yml build
-          docker-compose -f docker-compose.yml -f docker-compose.build.yml push
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push dynamic-geoassets-api
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push data-dashboard
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-sender
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-websocket-bridge
 
           # tag and push versions X.X and X and latest
           if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
@@ -95,6 +104,9 @@ jobs:
               export VERSION
               echo VERSION=$VERSION
               docker-compose -f docker-compose.yml -f docker-compose.build.yml build
-              docker-compose -f docker-compose.yml -f docker-compose.build.yml push
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push dynamic-geoassets-api
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push data-dashboard
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-sender
+              docker-compose -f docker-compose.yml -f docker-compose.build.yml push event-engine-websocket-bridge
             done
           fi

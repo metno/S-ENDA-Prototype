@@ -1,14 +1,18 @@
 #!/bin/bash
+MMD_IN='S-ENDA-metadata'
+
 echo "Webhook triggered." | systemd-cat -t webhook-handler
 
 # Work in shared folder
-cd /vagrant
+mkdir -p /vagrant/lib
+cd /vagrant/lib
 
+echo "Make new directory /vagrant/lib/isostore"
 mkdir -p isostore
 
-# Check out latest version of metadata
+# Check out latest version of metadata (used on staging/production server)
 if [ -d S-ENDA-metadata ]; then
-  echo "Repository exists locally, running git pull." | systemd-cat -t webhook-handler
+  echo "S-ENDA-metadata repository exists locally, running git pull." | systemd-cat -t webhook-handler
   cd S-ENDA-metadata
   git pull
   cd ..
@@ -18,8 +22,13 @@ else
 fi
 
 rm -rf /isostore/*
-docker-compose run --rm -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mcfdir iso-converter convert-all-mcfs.py --mcfdir /mcfdir --outdir /isostore
-docker-compose run --rm -v /vagrant/isostore:/isostore -v /vagrant/S-ENDA-metadata:/mmddir iso-converter mmd2isofix.py -i /mmddir -o /isostore
+cd /vagrant
+docker-compose run --rm \
+    -e XSLTPATH=/usr/local/share/xslt \
+    -v /vagrant/lib/isostore:/isostore \
+    -v $MMD_IN:/mmddir \
+    iso-converter \
+    sentinel1_mmd_to_csw_iso19139.py -i /mmddir -o /isostore
 
 # Restart catalog-service-api
 docker-compose rm -sf catalog-service-api
