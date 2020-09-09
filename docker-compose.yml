@@ -13,6 +13,19 @@ networks:
   event-engine:
 
 services:
+  postgis:
+    image: postgis/postgis:13-master
+    networks:
+      internal:
+        aliases:
+          - postgis
+    environment:
+      POSTGRES_USER: postgis
+      POSTGRES_PASSWORD: ${POSTGIS_PW:-mypassword}
+      POSTGRES_DB: csw_db
+    volumes:
+      - /srv/postgis:/var/lib/postgresql/data
+
   #
   # catalog-service-api (pycsw)
   #
