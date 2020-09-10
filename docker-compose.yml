@@ -20,8 +20,8 @@ services:
         aliases:
           - postgis
     environment:
-      POSTGRES_USER: postgis
-      POSTGRES_PASSWORD: ${POSTGIS_PW:-mypassword}
+      POSTGRES_USER: ${POSTGIS_USER:-postgis}
+      POSTGRES_PASSWORD: ${POSTGIS_PASSWORD:-postgis}
       POSTGRES_DB: csw_db
     volumes:
       - /srv/postgis:/var/lib/postgresql/data
