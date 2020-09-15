@@ -112,3 +112,14 @@ services:
 
   iso-converter:
     image: docker.io/metno/senda-iso-converter:${VERSION:-dev}
+
+  #
+  # watchtower, let watchtower update containers automatically
+  #
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging: *default-logging-policy
+    restart: *default-restart-policy
