@@ -11,6 +11,7 @@ x-logging:
 
 networks:
   event-engine:
+  internal:
 
 services:
   postgis:
@@ -20,8 +21,8 @@ services:
         aliases:
           - postgis
     environment:
-      POSTGRES_USER: ${POSTGIS_USER:-postgis}
-      POSTGRES_PASSWORD: ${POSTGIS_PASSWORD:-postgis}
+      POSTGRES_USER: ${POSTGRES_USER:-postgis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgis}
       POSTGRES_DB: csw_db
     volumes:
       - /srv/postgis:/var/lib/postgresql/data
@@ -34,11 +35,16 @@ services:
     image: docker.io/metno/senda-csw-catalog-service:${VERSION:-dev}
     ports:
       - "80:8000"
+    networks:
+      internal:
     environment:
       INDEXDB: "true"
       ISO_STORE: "/isostore"
+      PYCSW_DATABASE: "postgresql://${POSTGRES_USER:-postgis}:${POSTGRES_PASSWORD:-postgis}@postgis:5432/csw_db"
     volumes:
       - ./isostore:/isostore:ro
+    depends_on:
+      - postgis
     logging: *default-logging-policy
     restart: *default-restart-policy
 
