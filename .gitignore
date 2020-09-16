@@ -31,3 +31,6 @@ S-ENDA-metadata
 
 # Visualstudio
 .vscode/
+
+# Local override of environment variables
+.env
