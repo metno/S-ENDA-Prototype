@@ -18,7 +18,8 @@ if [ -d S-ENDA-metadata ]; then
   cd ..
 else
   echo "Cloning repository." | systemd-cat -t webhook-handler
-  git clone https://github.com/metno/S-ENDA-metadata
+  #git clone https://github.com/metno/S-ENDA-metadata
+  git clone git@gitlab.met.no:mmd/s-enda-mmd-xml.git
 fi
 
 rm -rf /isostore/*
