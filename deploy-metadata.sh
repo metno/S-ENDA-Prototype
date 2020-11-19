@@ -1,5 +1,9 @@
 #!/bin/bash
-MMD_IN='S-ENDA-metadata'
+MMD_IN='s-enda-mmd-xml'
+MMD_XML_REPO="https://gitlab.met.no/mmd/s-enda-mmd-xml"
+if [ -f "/vagrant/.env" ]; then
+  source /vagrant/.env
+fi
 
 echo "Webhook triggered." | systemd-cat -t webhook-handler
 
@@ -11,15 +15,14 @@ echo "Make new directory /vagrant/lib/isostore"
 mkdir -p isostore
 
 # Check out latest version of metadata (used on staging/production server)
-if [ -d S-ENDA-metadata ]; then
-  echo "S-ENDA-metadata repository exists locally, running git pull." | systemd-cat -t webhook-handler
-  cd S-ENDA-metadata
+if [ -d "${MMD_IN}" ]; then
+  echo "s-enda-mmd-xml repository exists locally, running git pull." | systemd-cat -t webhook-handler
+  cd s-enda-mmd-xml
   git pull
   cd ..
 else
   echo "Cloning repository." | systemd-cat -t webhook-handler
-  #git clone https://github.com/metno/S-ENDA-metadata
-  git clone git@gitlab.met.no:mmd/s-enda-mmd-xml.git
+  git clone $MMD_XML_REPO
 fi
 
 rm -rf /isostore/*
