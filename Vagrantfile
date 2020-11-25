@@ -57,6 +57,10 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y git webhook wget unattended-upgrades
     apt-get install -y docker.io docker-compose
+    cd /vagrant
+    mkdir -p /vagrant/lib
+    mkdir -p /vagrant/lib/input_mmd_files
+    mkdir -p /vagrant/lib/isostore
     cp /vagrant/hooks.json /etc/webhook.conf
     systemctl restart webhook
   SHELL
@@ -67,8 +71,10 @@ Vagrant.configure("2") do |config|
     then
       docker-compose -f docker-compose.yml -f docker-compose.build.yml build --pull
     fi
-    ./deploy-metadata.sh
     docker-compose up -d
+    export MMD_IN='/vagrant/lib/input_mmd_files'
+    export ISOSTORE='/vagrant/lib/isostore'
+    ./deploy-metadata.sh
   SHELL
 
   config.vm.post_up_message = $welcome_msg
