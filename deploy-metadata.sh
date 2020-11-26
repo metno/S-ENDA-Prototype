@@ -1,4 +1,6 @@
 #!/bin/bash
+MMD_IN="/vagrant/lib/input_mmd_files"
+ISOSTORE="/vagrant/lib/isostore"
 if [ -f "/vagrant/.env" ]; then
   source /vagrant/.env
 fi
