@@ -28,5 +28,5 @@ docker-compose run --rm \
 docker-compose exec -T catalog-service-api bash -c 'python3 /usr/bin/pycsw-admin.py -c load_records -f /etc/pycsw/pycsw.cfg -p $ISO_STORE -r -y'
 
 # Clean up
-#rm $ISOSTORE/*
-#rm $MMD_IN/*
+rm $ISOSTORE/*
+rm $MMD_IN/*

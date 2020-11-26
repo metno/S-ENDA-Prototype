@@ -66,8 +66,6 @@ Vagrant.configure("2") do |config|
       mkdir -p $MMD_IN
       mkdir -p $ISOSTORE
     fi
-    #mkdir -p /vagrant/lib/input_mmd_files
-    #mkdir -p /vagrant/lib/isostore
     cp /vagrant/hooks.json /etc/webhook.conf
     systemctl restart webhook
   SHELL
