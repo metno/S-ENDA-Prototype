@@ -42,7 +42,7 @@ services:
       ISO_STORE: "/isostore"
       PYCSW_DATABASE: "postgresql://${POSTGRES_USER:-postgis}:${POSTGRES_PASSWORD:-postgis}@postgis:5432/csw_db"
     volumes:
-      - ./isostore:/isostore:ro
+      - ./lib/isostore:/isostore:ro
     depends_on:
       - postgis
     logging: *default-logging-policy

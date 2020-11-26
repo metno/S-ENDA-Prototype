@@ -1,37 +1,7 @@
 [
 {
-  "id": "deploy-metadata",
+  "id": "deploy-metadata-gitlab",
   "execute-command": "/vagrant/deploy-metadata.sh",
-  "command-working-directory": "/vagrant",
-  "trigger-rule":
-  {
-    "and":
-    [
-      {
-        "match":
-        {
-          "type": "payload-hash-sha1",
-          "secret": "12345",
-          "parameter":
-          {
-            "source": "header",
-            "name": "X-Hub-Signature"
-          }
-        }
-      },
-      {
-        "match":
-        {
-          "type": "value",
-          "value": "refs/heads/master",
-          "parameter":
-          {
-            "source": "payload",
-            "name": "ref"
-          }
-        }
-      }
-    ]
-  }
+  "command-working-directory": "/vagrant"
 }
 ]
