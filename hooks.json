@@ -1,7 +1,7 @@
 [
 {
   "id": "deploy-metadata-gitlab",
-  "execute-command": "MMD_IN=/vagrant/lib/input_mmd_files ISOSTORE=/vagrant/lib/isostore /vagrant/deploy-metadata.sh",
+  "execute-command": "/vagrant/deploy-metadata.sh",
   "command-working-directory": "/vagrant"
 }
 ]

@@ -7,7 +7,7 @@ echo "Webhook triggered." | systemd-cat -t webhook-handler
 
 # This copies the new or changes MMD to $MMD_IN
 # We may also have to add functionality to remove deleted MMD files
-MMD_IN=$MMD_IN ./get_latest_metadata.sh
+./get_latest_metadata.sh
 
 # Remove old iso files
 rm $ISOSTORE/*
@@ -28,5 +28,5 @@ docker-compose run --rm \
 docker-compose exec -T catalog-service-api bash -c 'python3 /usr/bin/pycsw-admin.py -c load_records -f /etc/pycsw/pycsw.cfg -p $ISO_STORE -r -y'
 
 # Clean up
-rm $ISOSTORE/*
-rm $MMD_IN/*
+#rm $ISOSTORE/*
+#rm $MMD_IN/*

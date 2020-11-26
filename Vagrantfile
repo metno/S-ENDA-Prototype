@@ -60,9 +60,14 @@ Vagrant.configure("2") do |config|
     apt-get install -y docker.io docker-compose
     echo -e "Host *\\n\\tStrictHostKeyChecking no" > $HOME/.ssh/config
     cd /vagrant
-    mkdir -p /vagrant/lib
-    mkdir -p /vagrant/lib/input_mmd_files
-    mkdir -p /vagrant/lib/isostore
+    if [ -f "/vagrant/.env" ]; then
+      source /vagrant/.env
+      mkdir -p $LIB
+      mkdir -p $MMD_IN
+      mkdir -p $ISOSTORE
+    fi
+    #mkdir -p /vagrant/lib/input_mmd_files
+    #mkdir -p /vagrant/lib/isostore
     cp /vagrant/hooks.json /etc/webhook.conf
     systemctl restart webhook
   SHELL
@@ -74,8 +79,6 @@ Vagrant.configure("2") do |config|
       docker-compose -f docker-compose.yml -f docker-compose.build.yml build --pull
     fi
     docker-compose up -d
-    export MMD_IN='/vagrant/lib/input_mmd_files'
-    export ISOSTORE='/vagrant/lib/isostore'
     ./deploy-metadata.sh
   SHELL
 
