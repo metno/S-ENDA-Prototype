@@ -36,6 +36,7 @@ MSG
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
   config.vm.box_check_update = false
+  config.ssh.forward_agent = true
 
   config.vm.network "private_network", ip: "10.20.30.10"
 
@@ -57,6 +58,7 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y git webhook wget unattended-upgrades
     apt-get install -y docker.io docker-compose
+    echo -e "Host *\\n\\tStrictHostKeyChecking no" > $HOME/.ssh/config
     cd /vagrant
     mkdir -p /vagrant/lib
     mkdir -p /vagrant/lib/input_mmd_files
