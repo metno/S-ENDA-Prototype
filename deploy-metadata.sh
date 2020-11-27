@@ -12,7 +12,11 @@ echo "Webhook triggered." | systemd-cat -t webhook-handler
 ./get_latest_metadata.sh
 
 # Remove old iso files
-rm $ISOSTORE/*
+if [ -z "$(ls -A $ISOSTORE)" ]; then
+  echo "Empty dir"
+else
+  rm $ISOSTORE/*
+fi
 
 # Work in shared folder
 cd /vagrant
@@ -30,5 +34,13 @@ docker-compose run --rm \
 docker-compose exec -T catalog-service-api bash -c 'python3 /usr/bin/pycsw-admin.py -c load_records -f /etc/pycsw/pycsw.cfg -p $ISO_STORE -r -y'
 
 # Clean up
-rm $ISOSTORE/*
-rm $MMD_IN/*
+if [ -z "$(ls -A $ISOSTORE)" ]; then
+  echo "Empty dir"
+else
+  rm $ISOSTORE/*
+fi
+if [ -z "$(ls -A $MMD_IN)" ]; then
+  echo "Empty dir"
+else
+  rm $MMD_IN/*
+fi
