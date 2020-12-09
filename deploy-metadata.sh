@@ -31,7 +31,7 @@ docker-compose run --rm \
 
 # We may prefer to have a separate container for indexing in pycsw..
 # Ingest metadata from ISO19139 xml files
-docker-compose exec -T catalog-service-api bash -c 'python3 /usr/bin/pycsw-admin.py -c load_records -f /etc/pycsw/pycsw.cfg -p $ISO_STORE -r -y'
+docker-compose exec -T catalog-service-api bash -c 'python3 /usr/local/bin/pycsw-admin.py -c load_records -f /etc/pycsw/pycsw.cfg -p $ISO_STORE -r -y'
 
 # Clean up
 if [ -z "$(ls -A $ISOSTORE)" ]; then
