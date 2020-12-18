@@ -39,6 +39,7 @@ services:
       internal:
     environment:
       INDEXDB: "true"
+      CSW_SERVICE_URL: ${CSW_SERVICE_URL:-http://10.20.30.10:80}
       ISO_STORE: "/isostore"
       PYCSW_DATABASE: "postgresql://${POSTGRES_USER:-postgis}:${POSTGRES_PASSWORD:-postgis}@postgis:5432/csw_db"
     volumes:
